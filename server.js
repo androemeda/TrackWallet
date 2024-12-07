@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const colors = require('colors');
 const connectDb = require('./config/connectDb');
+const userRoutes = require('./routes/userRoute')
 
 //config dotenv file
 dotenv.config();
@@ -26,6 +27,8 @@ app.get('/', (req, res) => {
 
 //port
 const PORT = 8080 || process.env.PORT;
+
+app.use('/api/v1/users' , userRoutes)
 
 //listen server
 app.listen(PORT, () => {

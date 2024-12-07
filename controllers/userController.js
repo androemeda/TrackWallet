@@ -3,7 +3,7 @@ const userModel = require('../models/userModel');
 const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = userModel.findOne({ email, password });
+    const user = await userModel.findOne({ email, password });
     if (!user) {
       return res.status(404).send('user not found.');
     }
@@ -27,7 +27,7 @@ const registerController = async (req, res) => {
       success: true,
       newUser,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({
       success: false,
       error,
@@ -35,4 +35,4 @@ const registerController = async (req, res) => {
   }
 };
 
-module.export = { loginController, registerController };
+module.exports = { loginController, registerController };
