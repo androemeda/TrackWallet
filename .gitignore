@@ -1,8 +1,8 @@
 # Ignore node_modules in trackWallet_backend
-trackWallet_backend/node_modules/
+node_modules/
 
 # Ignore .env in trackWallet_backend
-trackWallet_backend/.env
+.env
 
 # Logs
 *.log
