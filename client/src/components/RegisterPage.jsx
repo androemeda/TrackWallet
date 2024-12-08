@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -15,6 +15,12 @@ function RegisterPage() {
       message.error('somethng went wrong.');
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
