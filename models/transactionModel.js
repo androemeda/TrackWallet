@@ -19,7 +19,7 @@ const transactionSchema = new mongoose.Schema(
       required: [true, 'category is required'],
     },
     reference: {
-      type: String,
+      type: String
     },
     description: {
       type: String,

@@ -2,7 +2,7 @@ const transactionModel = require('../models/transactionModel');
 
 const getAllTransactions = async (req, res) => {
   try {
-    const allTransactions = transactionModel.find({userid : req.body.userid});
+    const allTransactions = await transactionModel.find({userid : req.body.userid});
     res.status(200).json(allTransactions);
   } catch (error) {
     console.log(error);
