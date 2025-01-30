@@ -11,8 +11,10 @@ import {
   Table,
   DatePicker,
 } from 'antd';
+import { UnorderedListOutlined, AreaChartOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
+import Analytics from './Analytics';
 const { RangePicker } = DatePicker;
 
 function HomePage() {
@@ -21,6 +23,7 @@ function HomePage() {
   const [frequency, setFrequency] = useState('7');
   const [selectedDate, setSelectedDate] = useState([]);
   const [type, setType] = useState('all');
+  const [viewData, setViewData] = useState('table');
 
   const columns = [
     {
@@ -125,6 +128,24 @@ function HomePage() {
               />
             )}
           </div>
+          <div className="mx-2 switch-icons">
+            <UnorderedListOutlined
+              className={`mx-2 ${
+                viewData === 'table' ? 'active-icon' : 'inactive-icon'
+              }`}
+              onClick={() => {
+                setViewData('table');
+              }}
+            />
+            <AreaChartOutlined
+              className={`mx-2 ${
+                viewData === 'analytics' ? 'active-icon' : 'inactive-icon'
+              }`}
+              onClick={() => {
+                setViewData('analytics');
+              }}
+            />
+          </div>
           <button
             className="bg-blue-500 text-white p-2 rounded-lg"
             onClick={() => setShowModal(true)}
@@ -132,7 +153,15 @@ function HomePage() {
             Add New
           </button>
         </div>
-        <Table columns={columns} dataSource={allTransactions} footer={false} />
+        {viewData === 'table' ? (
+          <Table
+            columns={columns}
+            dataSource={allTransactions}
+            footer={false}
+          />
+        ) : (
+          <Analytics allTransactions={allTransactions} />
+        )}
         <Modal
           title="Add Transaction"
           open={showModal}
