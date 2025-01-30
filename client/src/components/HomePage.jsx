@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import { Modal, Button, Form, Input, Select, message, Table } from 'antd';
+import {
+  Modal,
+  Button,
+  Form,
+  Input,
+  Select,
+  message,
+  Table,
+  DatePicker,
+} from 'antd';
 import axios from 'axios';
+import moment from 'moment';
+const { RangePicker } = DatePicker;
 
 function HomePage() {
   const [showModal, setShowModal] = useState(false);
   const [allTransactions, setAllTransactions] = useState([]);
+  const [frequency, setFrequency] = useState('7');
+  const [selectedDate, setSelectedDate] = useState([]);
+  const [type, setType] = useState('all');
 
   const columns = [
     {
       title: 'Date',
       dataIndex: 'date', //name of the model
+      render: (text) => <span>{moment(text).format('YYYY-MM-DD')}</span>,
     },
     {
       title: 'Amount',
@@ -39,6 +54,9 @@ function HomePage() {
       const user = JSON.parse(localStorage.getItem('user'));
       const res = await axios.post('/transactions/get-transactions', {
         userid: user._id,
+        frequency,
+        type,
+        selectedDate,
       });
       setAllTransactions(res.data);
       console.log(res.data);
@@ -50,7 +68,7 @@ function HomePage() {
 
   useEffect(() => {
     getAllTransactions();
-  }, []);
+  }, [frequency, selectedDate, type]);
 
   const handleSubmit = async (values) => {
     try {
@@ -71,7 +89,42 @@ function HomePage() {
       <Header></Header>
       <div className="pt-[calc(60px)]">
         <div className="flex justify-between items-center p-2 border shadow-sm">
-          <div>range filters</div>
+          <div className="flex">
+            <h6>Select Frequency</h6>
+            <Select
+              value={frequency}
+              onChange={(values) => setFrequency(values)}
+            >
+              <Select.Option value="7">Last 1 Week</Select.Option>
+              <Select.Option value="30">Last 1 Month</Select.Option>
+              <Select.Option value="365">Last 1 Year</Select.Option>
+              <Select.Option value="custom">Custom</Select.Option>
+            </Select>
+            {frequency === 'custom' && (
+              <RangePicker
+                value={selectedDate}
+                onChange={(values) => {
+                  setSelectedDate(values);
+                }}
+              />
+            )}
+          </div>
+          <div className="flex">
+            <h6>Select Type</h6>
+            <Select value={type} onChange={(values) => setType(values)}>
+              <Select.Option value="all">ALL</Select.Option>
+              <Select.Option value="income">INCOME</Select.Option>
+              <Select.Option value="expense">EXPENSE</Select.Option>
+            </Select>
+            {frequency === 'custom' && (
+              <RangePicker
+                value={selectedDate}
+                onChange={(values) => {
+                  setSelectedDate(values);
+                }}
+              />
+            )}
+          </div>
           <button
             className="bg-blue-500 text-white p-2 rounded-lg"
             onClick={() => setShowModal(true)}
