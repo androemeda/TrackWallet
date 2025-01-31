@@ -8,7 +8,7 @@ function RegisterPage() {
   const submitForm = async (values) => {
     // console.log(values);
     try {
-      await axios.post('/users/register', values);
+      await axios.post('/api/v1/users/register', values);
       message.success('Registration successful.');
       navigate('/login');
     } catch (error) {

@@ -9,7 +9,7 @@ function LoginPage() {
   const submitForm = async (values) => {
     // console.log(values)
     try {
-      const response = await axios.post('/users/login', values);
+      const response = await axios.post('/api/v1/users/login', values);
       message.success('login success.');
       localStorage.setItem(
         'user',
