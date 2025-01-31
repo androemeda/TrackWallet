@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 function Footer() {
   return (
-    <div className='absolute bottom-0 bg-gray-700 w-full flex justify-center items-center font-black font-bold'>
+    <div className="bg-gray-700 w-full flex justify-center items-center font-black font-bold py-2">
       All rights reserved @ kartik deshpande
     </div>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

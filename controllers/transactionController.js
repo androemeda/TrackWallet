@@ -41,4 +41,32 @@ const addTransaction = async (req, res) => {
   }
 };
 
-module.exports = { getAllTransactions, addTransaction };
+const editTransaction = async (req, res) => {
+  try {
+    await transactionModel.findOneAndUpdate(
+      { _id: req.body.transactionId },
+      req.body.payload
+    );
+    res.status(200).send('edited succesfully');
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+
+const deleteTransaction = async (req, res) => {
+  try {
+    await transactionModel.findOneAndDelete({ _id: req.body.transactionId });
+    res.status(200).send('Transaction deleted succesfully');
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+
+module.exports = {
+  getAllTransactions,
+  addTransaction,
+  editTransaction,
+  deleteTransaction,
+};
